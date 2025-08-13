@@ -1,0 +1,8 @@
+.App {
+  text-align: center;
+  min-height: 100vh;
+  background-image: url(/public/Gym.webp);
+  background-size: cover;
+  background-repeat: no-repeat;
+  font-family: 'Montserrat', sans-serif;
+}
