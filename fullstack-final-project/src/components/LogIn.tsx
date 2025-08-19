@@ -31,7 +31,6 @@ const LogIn: FunctionComponent<LogInProps> = () => {
                     successMsg(`Welcome`);
                     localStorage.setItem("token", res.data);
                     navigate("/");
-                    console.log(localStorage.token);
                 } else {
                     errorMsg("Email or password is invalid !")
                 }
