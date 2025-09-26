@@ -32,6 +32,9 @@ const NavBar: FunctionComponent<NavBarProps> = () => {
                                 {isLoggedIn && <li className="nav-item">
                                     <NavLink to={"/favoritesproduct"} className="text-light nav-link" >Products <i className="fa-solid fa-heart"></i></NavLink>
                                 </li>}
+                                {isLoggedIn && <li className="nav-item">
+                                    <NavLink to={"/profile"} className="text-light nav-link" >Profile <i className="fa-solid fa-user"></i></NavLink>
+                                </li>}
                                 <li className="nav-item">
                                     <NavLink to={"/cartc"} className=" text-light nav-link">Cart <i className="fa-solid fa-cart-shopping"></i></NavLink>
                                 </li>
