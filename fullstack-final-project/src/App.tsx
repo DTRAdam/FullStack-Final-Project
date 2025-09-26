@@ -15,9 +15,10 @@ import Crm from './components/Crm';
 import Titles from './components/Titles';
 import CartC from './components/CartC';
 import FavoritesProduct from './components/FavoritesProduct';
-import { useEffect, useState } from 'react'; // <-- IMPORT useState
-import { Product } from './interfaces/products';   // <-- IMPORT Product type
-import Swal from 'sweetalert2';                   // <-- IMPORT SweetAlert2
+import { useEffect, useState } from 'react';
+import { Product } from './interfaces/products';
+import Swal from 'sweetalert2';
+import Profile from './components/Profile';
 
 function App() {
 
@@ -65,6 +66,7 @@ function App() {
           <Route path="/login" element={<LogIn />} />
           <Route path="/crm" element={<Crm />} />
           <Route path="/cartc" element={<CartC />} />
+          <Route path="/profile" element={<Profile />} />
           <Route path="/favoritesproduct" element={<FavoritesProduct favorites={favorites} />} />
           <Route path="*" element={<PageNotFound />} />
         </Routes>
