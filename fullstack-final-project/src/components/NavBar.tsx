@@ -8,7 +8,9 @@ interface NavBarProps {
 
 const NavBar: FunctionComponent<NavBarProps> = () => {
     const navigate: NavigateFunction = useNavigate()
-    const { isLoggedIn, setIsLoggedIn, isAdmin } = useUsers()
+    const { isLoggedIn, setIsLoggedIn, isAdmin, allUsers, userId } = useUsers()
+    const currentUser = allUsers.find(user => user._id === userId);
+    const imageUrl = currentUser?.image?.url;
     return (
         <>
             <div className="navlinks ">
@@ -44,7 +46,9 @@ const NavBar: FunctionComponent<NavBarProps> = () => {
                             </ul>
                             <form className="d-flex" role="search">
                                 <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
-                                <button className="btn btn-outline-secondary mx-1" type="submit"><i className="fa-solid fa-magnifying-glass"></i></button>
+                                <button className="btn btn-outline-secondary mx-1" type="submit"><i className="fa-solid fa-magnifying-glass"></i></button>     {isLoggedIn && <li className="nav-item">
+                                    <NavLink to={"/"} className=" text-light nav-link"><div style={{ backgroundImage: `url(${imageUrl})` }}></div></NavLink>
+                                </li>}
                                 {isLoggedIn && <button className="btn btn-warning display-5 mx-1" onClick={() => {
                                     navigate("/");
                                     setIsLoggedIn(false);

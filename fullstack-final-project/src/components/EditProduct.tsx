@@ -13,6 +13,7 @@ interface EditProductProps {
 
 const EditProduct: FunctionComponent<EditProductProps> = ({ onHide, refresh, productId }) => {
     const [product, setProduct] = useState<Product>({
+        _id: "",
         title: "",
         description: "",
         image: {

@@ -1,32 +1,38 @@
 import { FunctionComponent } from "react";
 import useUsers from "../hooks/useUsers";
+import { Users } from "../interfaces/users";
 
-interface ProfileProps {
-
-}
+interface ProfileProps { }
 
 const Profile: FunctionComponent<ProfileProps> = () => {
-    const { users } = useUsers()
+    const { allUsers } = useUsers();
+
+    console.log(allUsers);
+
     return (
-        <>
-            {users.map((user) => (
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Email</th>
-                            <th>Phone</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr key={user._id}>
-                            <th>{user.email}</th>
-                            <th>{user.phone}</th>
-                        </tr>
-                    </tbody>
-                </table>
-            ))}
-        </>
+        <table className="profileTable">
+            <thead>
+                <tr>
+                    <th className="fs-2">Email</th>
+                    <th className="fs-2">Phone</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                {allUsers.map((user: Users) => (
+                    <tr key={user._id}>
+                        <td className="w-1 text-light fs-2">{user.email}</td>
+                        <td className="w-1 text-light fs-2">{user.phone}</td>
+                        <button onClick={() => {
+                            console.log(user);
+
+                        }} ></button>
+                    </tr>
+                ))}
+
+            </tbody>
+        </table>
     );
-}
+};
 
 export default Profile;

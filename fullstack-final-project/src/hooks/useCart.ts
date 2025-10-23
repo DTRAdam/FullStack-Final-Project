@@ -1,69 +1,67 @@
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 import { Product } from "../interfaces/products";
-import { deleteFromCart, getCart } from "../services/cartServcies";
+import { getProductsFromCart, deleteFromCart } from "../services/cartServcies"; // Corrected spelling to services if needed
 import Swal from "sweetalert2";
 import useUsers from "./useUsers";
 
-const useCart = () => {
+export const useCart = () => {
+    const { userId } = useUsers();
     const [cartItems, setCartItems] = useState<Product[]>([]);
     const [loading, setLoading] = useState(true);
-    const { userId } = useUsers();
 
     useEffect(() => {
         if (!userId) {
+            setCartItems([]);
             setLoading(false);
             return;
         }
 
-        const token = localStorage.getItem("token");
-
-        if (token) {
-            setLoading(true);
-            getCart(userId)
-                .then((res) => {
-                    setCartItems(res.data.products || []);
-                })
-                .catch((err) => {
-                    console.error("Failed to fetch cart:", err);
-                    setCartItems([]);
-                })
-                .finally(() => {
-                    setLoading(false);
-                });
-        } else {
-            setCartItems([]);
-            setLoading(false);
-        }
+        setLoading(true);
+        getProductsFromCart(userId)
+            .then((res: Product[]) => setCartItems(res || []))
+            .catch((error) => {
+                console.error(error);
+                setCartItems([]);
+            })
+            .finally(() => setLoading(false));
     }, [userId]);
 
-
-
-
-
-    const removeProductFromCart = (productId: string, productName: string) => {
-        Swal.fire({
-            title: `Remove ${productName} from cart?`,
-            icon: "question",
+    const removeProductFromCart = async (productId: string, title?: string) => {
+        const confirm = await Swal.fire({
+            title: `Remove ${title || "this item"}?`,
+            icon: "warning",
             showCancelButton: true,
-            confirmButtonText: "Yes, remove",
-        }).then((result) => {
-            if (result.isConfirmed) {
-                deleteFromCart(productId)
-                    .then(() => {
-                        setCartItems((prevItems) =>
-                            prevItems.filter((item) => item._id !== productId)
-                        );
-                        Swal.fire("Removed!", `${productName} has been removed from your cart.`, "success");
-                    })
-                    .catch((error) => {
-                        console.error("Error removing item from cart:", error);
-                        Swal.fire("Error!", "Could not remove item from cart.", "error");
-                    });
-            }
+            confirmButtonText: "Yes",
+            cancelButtonText: "No",
         });
+
+        if (confirm.isConfirmed && userId) {
+            try {
+
+                await deleteFromCart(productId, userId);
+
+
+                const res = await getProductsFromCart(userId);
+                setCartItems(res || []);
+
+                Swal.fire("Removed!", `${title || "Item"} removed.`, "success");
+            } catch (error) {
+                console.error(error);
+                Swal.fire("Error!", "Could not remove item.", "error");
+            }
+        }
     };
 
-    return { cartItems, loading, removeProductFromCart };
-};
+    const refreshCart = async () => {
+        if (!userId) return;
+        try {
+            const res = await getProductsFromCart(userId);
+            setCartItems(res || []);
+        } catch (err) {
+            console.error(err);
+            setCartItems([]);
+        }
+    };
 
-export default useCart;
+    return { cartItems, loading, removeProductFromCart, refreshCart };
+};

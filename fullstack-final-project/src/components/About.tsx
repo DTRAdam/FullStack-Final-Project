@@ -1,5 +1,5 @@
-import { FunctionComponent, useState } from "react";
-import { Link, NavigateFunction, useNavigate } from "react-router-dom";
+import { FunctionComponent } from "react";
+import { Link } from "react-router-dom";
 
 
 interface AboutProps {
@@ -7,7 +7,7 @@ interface AboutProps {
 }
 
 const About: FunctionComponent<AboutProps> = () => {
-    const navigate: NavigateFunction = useNavigate()
+
     return (
         <>
             <h1 className="section-title">

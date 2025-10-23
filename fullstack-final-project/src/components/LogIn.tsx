@@ -12,7 +12,7 @@ interface LogInProps {
 
 const LogIn: FunctionComponent<LogInProps> = () => {
     const navigate: NavigateFunction = useNavigate()
-    const { setIsLoggedIn, } = useUsers()
+    const { setIsLoggedIn } = useUsers()
     const formik: FormikValues = useFormik({
         initialValues: {
             email: "",

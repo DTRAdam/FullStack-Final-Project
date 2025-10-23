@@ -1,5 +1,5 @@
 export interface Product {
-    _id?: string;
+    _id: string;
     title: string;
     price: number;
     description: string;
@@ -16,8 +16,4 @@ export interface Product {
     creationAt?: string;
     updatedAt?: string;
     quantity?: number;
-
-    // add later 
-    // brand: string;
-    // rating?: number;
 }

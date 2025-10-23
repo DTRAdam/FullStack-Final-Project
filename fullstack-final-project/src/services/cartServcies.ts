@@ -1,66 +1,58 @@
-import axios from "axios"
-import { getProductById } from "./productServices"
+import axios from "axios";
+import { Product } from "../interfaces/products";
 
-const api: string = `${process.env.REACT_APP_API}/carts`
+const api: string = `${process.env.REACT_APP_API}/carts`;
+
+const getAuthHeaders = () => {
+    const token = localStorage.getItem("token");
+    return token ? { "x-auth-token": token } : {};
+};
+
 
 export function createCart(userId: string) {
-    return axios.post(api, { userId, products: [], active: true })
+    return axios.post(api, { userId, products: [], active: true }, { headers: getAuthHeaders() });
 }
 
-export async function getProductsFromCart() {
-    try {
-        let userId: string = JSON.parse(localStorage.getItem("userId") as string)
-        let userCart = await axios.get(`${api}?userId=${userId}&&actove=true`)
 
-        let productdetails = []
-        for (let id of userCart.data[0].product) {
-            productdetails.push(getProductById(id))
+export async function getProductsFromCart(userId: string): Promise<Product[]> {
+    try {
+        const response = await axios.get(`${api}/${userId}`, { headers: getAuthHeaders() });
+        const userCart: any = response.data.cart;
+
+        if (!userCart || !userCart.products || userCart.products.length === 0) {
+            return [];
         }
-        return Promise.all(productdetails)
+
+
+        const productDetails: Product[] = userCart.products.map((item: Product) => {
+
+            return { _id: item._id, quantity: item.quantity };
+        });
+
+        return productDetails;
     } catch (error) {
-        console.log(error);
+        console.error("Error in getProductsFromCart:", error);
+        throw error;
     }
 }
 
-export const getCart = (userId: string) => {
-    return axios.get(`${api}/${userId}`, {
-        headers: {
-            "x-auth-token": localStorage.getItem("token"),
-        },
-    });
-};
-
 export const addToCart = async (productId: string, quantity = 1) => {
     try {
-        const res = await axios.post(
-            `${api}`,
-            { productId, quantity },
-            {
-                headers: {
-
-                    "x-auth-token": localStorage.getItem("token")
-                }
-            }
-        );
+        const res = await axios.post(api, { productId, quantity }, { headers: getAuthHeaders() });
         return res.data;
-    } catch (err: any) {
-
+    } catch (err) {
         console.error("Error adding to cart:", err);
-        if (err.response && err.response.data) {
-            console.error("Backend response data:", err.response.data);
-        }
         throw err;
     }
 };
 
 
-
-export const deleteFromCart = (productId: string) => {
-    return axios.delete(`${api}/${productId}`, {
-        headers: {
-            "x-auth-token": localStorage.getItem("token"),
-        },
-    });
+export const deleteFromCart = async (productId: string, userId: string) => {
+    try {
+        const res = await axios.delete(`${api}/${userId}/${productId}`, { headers: getAuthHeaders() });
+        return res.data;
+    } catch (error) {
+        console.error("Error deleting from cart:", error);
+        throw error;
+    }
 };
-
-

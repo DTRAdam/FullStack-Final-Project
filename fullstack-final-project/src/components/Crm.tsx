@@ -2,19 +2,20 @@ import { FunctionComponent, useState } from "react";
 import useUsers from "../hooks/useUsers";
 import Pagination from "./Pagination";
 import useProducts from "../hooks/useProducts";
+import { Users } from "../interfaces/users";
 
 interface CrmProps {
 
 }
 
 const Crm: FunctionComponent<CrmProps> = () => {
-    const { users } = useUsers()
+    const { allUsers } = useUsers()
     const { loading } = useProducts()
     const [currentPage, setCurrentPage] = useState(1);
     const usersPerPage = 15;
     const startIndex = (currentPage - 1) * usersPerPage;
     const endIndex = startIndex + usersPerPage;
-    const currentUsers = users.slice(startIndex, endIndex);
+    const currentUsers = allUsers.slice(startIndex, endIndex);
     return (
         <div data-aos="fade-in"
             data-aos-offset="0">
@@ -27,7 +28,7 @@ const Crm: FunctionComponent<CrmProps> = () => {
                 </div>
             ) : (
 
-                users.length ? (
+                allUsers.length ? (
                     <div className="crmmaindiv">
                         <table className="table table-dark crmtable table-striped">
                             <thead>
@@ -44,7 +45,7 @@ const Crm: FunctionComponent<CrmProps> = () => {
                                 </tr>
                             </thead>
                             <tbody>
-                                {currentUsers.map((user) => (
+                                {currentUsers.map((user: Users) => (
                                     <tr key={user._id}>
                                         <td>{user._id}</td>
                                         <td>{user.name.first}</td>
@@ -65,7 +66,7 @@ const Crm: FunctionComponent<CrmProps> = () => {
                         </table>
                         <Pagination
                             currentPage={currentPage}
-                            totalPages={Math.ceil(users.length / usersPerPage)}
+                            totalPages={Math.ceil(allUsers.length / usersPerPage)}
                             onPageChange={setCurrentPage}
                         />
                     </div>

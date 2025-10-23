@@ -16,9 +16,8 @@ export function getUserById(id: string) {
         headers: {
             "x-auth-token": localStorage.getItem("token")
         }
-    })
+    });
 }
-
 export function getDecodedToken(token: string) {
     return jwtDecode(token) as CustomPayload
 }
@@ -42,11 +41,12 @@ export async function getUserDetails(token: string) {
 }
 
 export function getAllUsers() {
-    return axios.get(`${api}`, {
+    const uniqueUrl = `${api}?t=${Date.now()}`;
+    return axios.get(uniqueUrl, {
         headers: {
             "x-auth-token": localStorage.getItem("token")
         }
-    })
+    });
 }
 
 export function checkUser(email: string, password: string) {

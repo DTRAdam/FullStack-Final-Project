@@ -8,6 +8,8 @@ export function getAllProducts() {
 
 export function getProductById(id: string) {
     return axios.get(`${api}/${id}`)
+
+
 }
 
 export function addProduct(product: Product) {

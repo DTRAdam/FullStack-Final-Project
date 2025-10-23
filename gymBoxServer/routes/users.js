@@ -39,40 +39,54 @@ const loginSchema = Joi.object({
 
 router.post("/", async (req, res) => {
     try {
-        //validation
+
         const { error } = registerSchema.validate(req.body);
         if (error) {
             return res.status(400).send(error.details[0].message);
         }
 
-        //check if a user with this email already exists in the database.
         let existingUser = await User.findOne({ email: req.body.email });
         if (existingUser) {
             return res.status(409).send("Innvalid email or password");
         }
-
-        //create a new user 
         let newUser = new User(req.body);
 
-        //hash the user password
         const salt = await bcrypt.genSalt(10);
         newUser.password = await bcrypt.hash(newUser.password, salt);
 
-        //save the new user to the database.
         await newUser.save();
         console.log(chalk.green("User registered successfully:"));
 
-        // auto create a cart for this new user.
         const newCart = new Cart({ userId: newUser._id, products: [], active: true });
         await newCart.save();
 
-        //end a success response back to the customer
         res.status(201).send(_.pick(newUser, ["_id", "name", "email"]));
-
     } catch (error) {
-        //if of the steps above crash, this block will run.
         console.log(chalk.red("FATAL ERROR during user registration:", error));
         res.status(500).send("An error occurred during registration.");
+    }
+});
+
+router.get("/:id", auth, async (req, res) => {
+    try {
+        if (req.payload._id !== req.params.id && !req.payload.isAdmin) {
+            return res.status(403).send("Access denied. You can only view your own profile.");
+        }
+
+        console.log(` ${req.params.id}`);
+        const user = await User.findById(req.params.id).select("-password");
+
+        if (!user) {
+            console.log(` ${req.params.id} w`);
+            return res.status(404).send("User not found.");
+        }
+
+        console.log(` ${user.name.first} `);
+        res.status(200).send(user);
+
+    } catch (error) {
+        console.log("--- [Backend] An error occurred in GET /:id ---", error);
+        res.status(500).send(error.message);
     }
 });
 
@@ -83,7 +97,7 @@ router.post("/login", async (req, res) => {
         if (error) return res.status(400).send(error.details);
 
         const user = await User.findOne({ email: req.body.email });
-        if (!user) return res.status(4000).send("Invalid email or password.");
+        if (!user) return res.status(400).send("Invalid email or password.");
 
         const validPassword = await bcrypt.compare(req.body.password, user.password);
         if (!validPassword) return res.status(400).send("Invalid email or password.");

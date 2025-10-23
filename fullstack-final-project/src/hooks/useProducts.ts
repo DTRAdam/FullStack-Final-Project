@@ -9,6 +9,7 @@ const useProducts = () => {
     const [inStock, setInStock] = useState(true)
     const [favorites, setFavorites] = useState<Product[]>([])
 
+
     useEffect(() => {
         const storedFavorites = localStorage.getItem("favorites")
         if (storedFavorites) {
@@ -35,7 +36,7 @@ const useProducts = () => {
                 setIsLoading(false)
             })
             .catch((err) => {
-                console.error(err)
+
                 setIsLoading(false)
             })
     }, [])
@@ -68,10 +69,12 @@ const useProducts = () => {
 
         if (isFavorite) {
             Swal.fire("Removed!", "The product has been removed from your favorites.", "success")
-            setFavorites((prev) => prev.filter((fav) => fav._id !== product._id))
+
+            const newFavorites = (favorites: Product[]) => favorites.filter((fav: Product) => fav._id !== product._id)
+            setFavorites(newFavorites)
         } else {
             Swal.fire("Added!", "The product has been added to your favorites.", "success")
-            setFavorites((prev) => [...prev, product])
+            setFavorites([])
         }
     }
 
@@ -83,7 +86,7 @@ const useProducts = () => {
         removeProduct,
         handleFavoriteToggle,
         favorites,
-        setFavorites
+        setFavorites,
     }
 }
 

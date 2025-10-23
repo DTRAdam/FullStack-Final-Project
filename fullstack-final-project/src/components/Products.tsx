@@ -13,7 +13,7 @@ interface ProductsProps {
 }
 
 const Products: FunctionComponent<ProductsProps> = ({ handleFavoriteToggle }) => {
-    const { products, loading } = useProducts();
+    const { products, loading, removeProduct, } = useProducts();
     const [currentPage, setCurrentPage] = useState(1);
     const productsPerPage = 5;
     const startIndex = (currentPage - 1) * productsPerPage;
@@ -24,10 +24,6 @@ const Products: FunctionComponent<ProductsProps> = ({ handleFavoriteToggle }) =>
     const [productsChanged, setProductsChanged] = useState<boolean>(false);
     const [openEditModal, setOpenEditModal] = useState<boolean>(false);
     const [productId, setProductId] = useState<string>("");
-    const { removeProduct, } = useProducts();
-
-
-
 
     let refresh = () => {
         setProductsChanged(!productsChanged);
@@ -38,10 +34,9 @@ const Products: FunctionComponent<ProductsProps> = ({ handleFavoriteToggle }) =>
             <h1 className="section-title ">Products <i className="fa-solid fa-tag"></i></h1>
             <div className="productmaindiv">
                 {loading ? (
-                    <div className="loader">
-                        <div className="box1"></div>
-                        <div className="box2"></div>
-                        <div className="box3"></div>
+                    <div className="centered">
+                        <div className="blob-1"></div>
+                        <div className="blob-2"></div>
                     </div>
                 ) : (
                     <div className="productcontainer">

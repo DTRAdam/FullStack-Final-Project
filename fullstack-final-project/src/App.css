@@ -6,3 +6,8 @@
   background-repeat: no-repeat;
   font-family: 'Montserrat', sans-serif;
 }
+
+html {
+
+  height: 90vh;
+}
