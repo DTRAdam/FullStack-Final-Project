@@ -63,7 +63,7 @@ const Register: FunctionComponent<RegisterProps> = () => {
         onSubmit: (values: Users) => {
             createUser(values).then((res) => {
                 successMsg("Thank you for registering! Please log in.");
-                createCart(userId)
+                createCart(res.data._id)
                 navigate("/login");
             }).catch((err) => {
                 if (err.response) {
