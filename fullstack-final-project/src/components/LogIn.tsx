@@ -1,10 +1,11 @@
-import { FunctionComponent } from "react";
+import { FunctionComponent, useContext } from "react";
 import { NavigateFunction, useNavigate } from "react-router-dom";
 import * as yup from "yup";
 import useUsers from "../hooks/useUsers";
 import { FormikValues, useFormik } from "formik";
-import { checkUser } from "../services/userServices";
+import { checkUser, getDecodedToken } from "../services/userServices";
 import { errorMsg, successMsg } from "../services/feedBack";
+import { authAdminContext } from "../context/isLoggedInContext";
 
 interface LogInProps {
 
@@ -13,6 +14,7 @@ interface LogInProps {
 const LogIn: FunctionComponent<LogInProps> = () => {
     const navigate: NavigateFunction = useNavigate()
     const { setIsLoggedIn } = useUsers()
+    const { setIsAdmin } = useContext(authAdminContext);
     const formik: FormikValues = useFormik({
         initialValues: {
             email: "",
@@ -21,23 +23,33 @@ const LogIn: FunctionComponent<LogInProps> = () => {
         },
         validationSchema: yup.object({
             email: yup.string().email().min(5).required(),
-            password: yup.string().min(5).max(20).required().matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*]).*$/,),
+            password: yup.string().min(5).max(20).required(),
             stayloggedin: yup.boolean()
         }),
         onSubmit: (values) => {
             checkUser(values.email, values.password).then((res) => {
                 if (res.data.length) {
+                    const token = res.data;
+                    localStorage.setItem("token", token);
+
                     setIsLoggedIn(true);
+
+                    const decoded = getDecodedToken(token);
+                    if (decoded && decoded.isAdmin) {
+                        setIsAdmin(true);
+                    } else {
+                        setIsAdmin(false);
+                    }
+
                     successMsg(`Welcome`);
-                    localStorage.setItem("token", res.data);
                     navigate("/");
                 } else {
-                    errorMsg("Email or password is invalid !")
+                    errorMsg("Email or password is invalid !");
                 }
             }).catch((err) => {
                 console.log(err);
                 errorMsg(`Email or password is invalid!`);
-            })
+            });
         }
     })
     return (

@@ -1,6 +1,8 @@
-import { FunctionComponent } from "react";
+import { FunctionComponent, useContext } from "react";
 import { NavigateFunction, NavLink, useNavigate } from "react-router-dom";
 import useUsers from "../hooks/useUsers";
+import { log } from "console";
+import { authAdminContext } from "../context/isLoggedInContext";
 
 interface NavBarProps {
 
@@ -8,7 +10,10 @@ interface NavBarProps {
 
 const NavBar: FunctionComponent<NavBarProps> = () => {
     const navigate: NavigateFunction = useNavigate()
-    const { isLoggedIn, setIsLoggedIn, isAdmin, allUsers, userId } = useUsers()
+    const { isLoggedIn, setIsLoggedIn, allUsers, userId, isAdmin } = useUsers()
+
+
+
     const currentUser = allUsers.find(user => user._id === userId);
     const imageUrl = currentUser?.image?.url;
     return (
