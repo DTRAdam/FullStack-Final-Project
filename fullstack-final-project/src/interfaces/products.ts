@@ -5,10 +5,7 @@ export interface Product {
     description: string;
     inStock: boolean;
     categoryId: number;
-    category: {
-        id?: string;
-        name: string;
-    };
+    category: string;
     image: {
         url: string;
         alt?: string
