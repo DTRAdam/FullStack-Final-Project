@@ -23,10 +23,8 @@ const EditProduct: FunctionComponent<EditProductProps> = ({ onHide, refresh, pro
         price: 0,
         inStock: false,
         categoryId: 0,
-        category: {
-            id: undefined,
-            name: ""
-        }
+        category: "",
+
     })
     useEffect(() => {
         getProductById(productId)
@@ -34,7 +32,7 @@ const EditProduct: FunctionComponent<EditProductProps> = ({ onHide, refresh, pro
                 setProduct(res.data);
             })
             .catch((err) => console.log(err));
-    }, []);
+    }, [productId]);
 
     const formik: FormikValues = useFormik<Product>({
         initialValues: product,
@@ -47,6 +45,9 @@ const EditProduct: FunctionComponent<EditProductProps> = ({ onHide, refresh, pro
                 url: yup.string().min(14).url().required(),
                 alt: yup.string().min(2).max(256).required(),
             }),
+            category: yup.string(),
+
+
         }),
         onSubmit: (values) => {
             updateproduct(values).then(() => {
@@ -98,6 +99,21 @@ const EditProduct: FunctionComponent<EditProductProps> = ({ onHide, refresh, pro
                         <input
                             type="text"
                             className="form-control"
+                            id="category"
+                            name="category"
+                            value={formik.values.category}
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                        />
+                        <label htmlFor="category">Category: </label>
+                        {formik.touched.category && formik.errors.category && (
+                            <p className="text-danger">{formik.errors.category}</p>
+                        )}
+                    </div>
+                    <div className="form-floating mb-3">
+                        <input
+                            type="text"
+                            className="form-control"
                             id="price"
                             name="price"
                             value={formik.values.price}
@@ -115,32 +131,40 @@ const EditProduct: FunctionComponent<EditProductProps> = ({ onHide, refresh, pro
                             className="form-control"
                             id="image.url"
                             name="image.url"
-                            value={formik.values.image.url}
+                            value={formik.values.image?.url}
                             onChange={formik.handleChange}
                             onBlur={formik.handleBlur}
                         />
                         <label htmlFor="image.url">Url: </label>
-                        {formik.touched.image.url && formik.errors.image.url && (
-                            <p className="text-danger">{formik.errors.image.url}</p>
+                        {formik.touched.image?.url && formik.errors.image?.url && (
+                            <p className="text-danger">{formik.errors.image?.url}</p>
                         )}
                     </div>
                     <div className="form-floating mb-3">
                         <input
                             type="text"
                             className="form-control"
-                            id="image.alt"
+                            id="imagea.lt"
                             name="image.alt"
-                            value={formik.values.image.alt}
+                            value={formik.values.image?.alt}
                             onChange={formik.handleChange}
                             onBlur={formik.handleBlur}
                         />
                         <label htmlFor="image.alt">Alt: </label>
-                        {formik.touched.image.alt && formik.errors.image.alt && (
-                            <p className="text-danger">{formik.errors.image.alt}</p>
+                        {formik.touched.image?.alt && formik.errors.image?.alt && (
+                            <p className="text-danger">{formik.errors.image?.alt}</p>
                         )}
                     </div>
+                    <button
+                        className="btn btn-primary fs-5 mt-3 w-100"
+                        type="submit"
+                        disabled={!formik.dirty || !formik.isValid}
+                    >
+                        <i className="fa-solid fa-circle-check fs-1"></i>
+                    </button>
                 </form>
-            </div>
+            </div >
+
         </>
     );
 }

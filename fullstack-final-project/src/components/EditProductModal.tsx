@@ -22,11 +22,11 @@ const EditProductModal: FunctionComponent<EditProductModalProps> = ({ show, onHi
             >
                 <Modal.Header closeButton>
                     <Modal.Title className="w-100 text-center " id="contained-modal-title-vcenter">
-                        <h1 className="text-dark">Add <i className="fa-regular text-dark fa-id-card"></i></h1>
+                        <h1 className="text-light">Edit <i className="fa-regular text-light fa-id-card"></i></h1>
                     </Modal.Title>
                 </Modal.Header>
-                <Modal.Body>
-                    {<EditProduct onHide={onHide} refresh={refresh} productId={productId} />}
+                <Modal.Body  >
+                    <EditProduct onHide={onHide} refresh={refresh} productId={productId} />
                 </Modal.Body>
                 <Modal.Footer>
 
