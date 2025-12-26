@@ -15,6 +15,11 @@ body {
   gap: 15px;
 }
 
+.modal-content {
+  background-color: rgba(0, 0, 0, 0.38);
+  backdrop-filter: blur(3px);
+}
+
 .nav-link {
   font-size: 1.3rem;
   border-radius: 5px;
