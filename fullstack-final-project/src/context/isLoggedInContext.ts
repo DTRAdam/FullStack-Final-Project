@@ -11,4 +11,17 @@ export const authContext = createContext<AuthContextType>({
     setIsLoggedIn: () => { }
 });
 
+
+interface AuthAdminContextType {
+    isAdmin: boolean;
+    setIsAdmin: (value: boolean) => void;
+}
+
+
+export const authAdminContext = createContext<AuthAdminContextType>({
+    isAdmin: false,
+    setIsAdmin: () => { }
+});
+
+
 export const AuthProvider = authContext.Provider;
