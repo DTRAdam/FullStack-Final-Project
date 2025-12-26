@@ -19,7 +19,7 @@ import { useEffect, useState } from 'react';
 import { Product } from './interfaces/products';
 import Swal from 'sweetalert2';
 import Profile from './components/Profile';
-import { AuthProvider } from './context/isLoggedInContext';
+import { authAdminContext, AuthProvider } from './context/isLoggedInContext';
 
 function App() {
 
@@ -54,28 +54,34 @@ function App() {
   };
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
+  const [isAdmin, setIsAdmin] = useState(false);
 
   return (
+
     <AuthProvider value={{ isLoggedIn, setIsLoggedIn }}>
-      <div className="App">
-        <Router>
-          <NavBar />
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/about" element={<About />} />
-            <Route path="/titles" element={<Titles />} />
-            <Route path="/products" element={<Products handleFavoriteToggle={handleFavoriteToggle} />} />
-            <Route path="/register" element={<Register />} />
-            <Route path="/login" element={<LogIn />} />
-            <Route path="/crm" element={<Crm />} />
-            <Route path="/cartc" element={<CartC />} />
-            <Route path="/profile" element={<Profile />} />
-            <Route path="/favoritesproduct" element={<FavoritesProduct favorites={favorites} />} />
-            <Route path="*" element={<PageNotFound />} />
-          </Routes>
-          <Footer />
-        </Router>
-      </div>
+      <authAdminContext.Provider value={{ isAdmin, setIsAdmin }}>
+
+        <div className="App">
+          <Router>
+            <NavBar />
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/about" element={<About />} />
+              <Route path="/titles" element={<Titles />} />
+              <Route path="/products" element={<Products handleFavoriteToggle={handleFavoriteToggle} />} />
+              <Route path="/register" element={<Register />} />
+              <Route path="/login" element={<LogIn />} />
+              <Route path="/crm" element={<Crm />} />
+              <Route path="/cartc" element={<CartC />} />
+              <Route path="/profile" element={<Profile />} />
+              <Route path="/favoritesproduct" element={<FavoritesProduct favorites={favorites} />} />
+              <Route path="*" element={<PageNotFound />} />
+            </Routes>
+            <Footer />
+          </Router>
+        </div>
+
+      </authAdminContext.Provider>
     </AuthProvider>
   );
 }
