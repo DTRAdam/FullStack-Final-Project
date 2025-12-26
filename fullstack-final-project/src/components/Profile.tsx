@@ -7,8 +7,6 @@ interface ProfileProps { }
 const Profile: FunctionComponent<ProfileProps> = () => {
     const { allUsers } = useUsers();
 
-    console.log(allUsers);
-
     return (
         <table className="profileTable">
             <thead>
