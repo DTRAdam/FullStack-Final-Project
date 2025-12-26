@@ -1,18 +1,15 @@
 import { useEffect, useState, useContext } from "react";
 import { Users } from "../interfaces/users";
-import { getDecodedToken, getUserById, getAllUsers } from "../services/userServices"; // מייבאים את כל הפונקציות הנדרשות
-import { authContext } from "../context/isLoggedInContext";
+import { getDecodedToken, getUserById, getAllUsers } from "../services/userServices";
+import { authAdminContext, authContext } from "../context/isLoggedInContext";
 
 const useUsers = () => {
-
     const [userProfile, setUserProfile] = useState<Users | null>(null);
-
     const [allUsers, setAllUsers] = useState<Users[]>([]);
-
-    const [isAdmin, setIsAdmin] = useState(false);
     const [userId, setUserId] = useState("");
     const [loadingUser, setLoadingUser] = useState(true);
     const { isLoggedIn, setIsLoggedIn } = useContext(authContext);
+    const { isAdmin, setIsAdmin } = useContext(authAdminContext);
 
     useEffect(() => {
         const token = localStorage.getItem("token");
@@ -25,42 +22,39 @@ const useUsers = () => {
             const decoded = getDecodedToken(token);
             if (decoded) {
                 setIsLoggedIn(true);
-                const isAdminStatus = decoded.isAdmin;
-                const currentUserId = decoded._id;
-                setIsLoggedIn(true)
+                setIsAdmin(decoded.isAdmin);
+                setUserId(decoded._id);
 
-                setIsAdmin(isAdminStatus);
-                setUserId(currentUserId);
+                getUserById(decoded._id)
+                    .then((res) => setUserProfile(res.data))
+                    .catch((err) => console.error(err));
 
-                getUserById(currentUserId)
-                    .then((res) => {
-                        setUserProfile(res.data);
-                    })
-                    .catch((err) => console.error("Failed to fetch user profile", err));
-
-                if (isAdminStatus) {
+                if (decoded.isAdmin) {
                     getAllUsers()
-                        .then((res) => {
-                            setAllUsers(res.data);
-                        })
-                        .catch((err) => console.error("Failed to fetch all users", err));
+                        .then((res) => setAllUsers(res.data))
+                        .catch((err) => console.error(err));
                 }
-
             } else {
                 setIsLoggedIn(false);
             }
         } catch (error) {
-            console.error("Token decoding or data fetching failed:", error);
-            localStorage.removeItem("token");
             setIsLoggedIn(false);
+            localStorage.removeItem("token");
         } finally {
             setLoadingUser(false);
         }
-    }, [setIsLoggedIn]);
+    }, [setIsLoggedIn, setIsAdmin]);
 
 
     return {
-        isLoggedIn, isAdmin, userId, loadingUser, userProfile, allUsers, setIsLoggedIn
+        isLoggedIn,
+        isAdmin,
+        userId,
+        loadingUser,
+        userProfile,
+        allUsers,
+        setIsLoggedIn,
+        setIsAdmin
     };
 };
 
