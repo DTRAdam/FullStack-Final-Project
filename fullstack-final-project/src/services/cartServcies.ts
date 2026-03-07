@@ -24,10 +24,20 @@ export async function getProductsFromCart(userId: string): Promise<Product[]> {
         }
 
 
-        const productDetails: Product[] = userCart.products.map((item: Product) => {
-
-            return { _id: item._id, quantity: item.quantity };
-        });
+        // Prevent mapping errors from deleted products (where productId is null)
+        const productDetails: Product[] = userCart.products
+            .filter((item: any) => item.productId != null)
+            .map((item: any) => {
+                return {
+                    _id: item.productId._id,
+                    title: item.productId.title,
+                    price: item.productId.price,
+                    description: item.productId.description,
+                    category: item.productId.category,
+                    image: item.productId.image,
+                    quantity: item.quantity
+                };
+            });
 
         return productDetails;
     } catch (error) {

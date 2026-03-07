@@ -15,6 +15,7 @@ const useUsers = () => {
         const token = localStorage.getItem("token");
         if (!token) {
             setIsLoggedIn(false);
+            setIsAdmin(false);
             setLoadingUser(false);
             return;
         }
@@ -36,9 +37,11 @@ const useUsers = () => {
                 }
             } else {
                 setIsLoggedIn(false);
+                setIsAdmin(false);
             }
         } catch (error) {
             setIsLoggedIn(false);
+            setIsAdmin(false);
             localStorage.removeItem("token");
         } finally {
             setLoadingUser(false);
@@ -54,7 +57,8 @@ const useUsers = () => {
         userProfile,
         allUsers,
         setIsLoggedIn,
-        setIsAdmin
+        setIsAdmin,
+        setAllUsers
     };
 };
 

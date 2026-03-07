@@ -18,7 +18,7 @@ const Footer: FunctionComponent<FooterProps> = () => {
                     <Link className="link" to={"https://www.facebook.com//"}><i className="fa-brands fa-square-facebook"></i><p className="footerp">Facebook</p></Link>
                 </li>
                 {isLoggedIn && <li>
-                    <Link className="link" to={"/favoriteproduct"}><i className="fa-solid fa-heart"></i><p className="footerp">Favorite</p></Link>
+                    <Link className="link" to={"/favoritesproduct"}><i className="fa-solid fa-heart"></i><p className="footerp">Favorite</p></Link>
                 </li>}
                 {isLoggedIn ?? <li>
                     <Link className="link" to={isLoggedIn ? "/cartc" : "/register"}><i className="fa-solid fa-cart-shopping"></i><p>Cart</p></Link>

@@ -34,11 +34,8 @@ app.use("/carts", carts);
 mongoose.connect(process.env.DB)
   .then(() => {
     console.log(chalk.green("Connected to MongoDB successfully!"));
-
-
     app.listen(PORT, () => {
       console.log(chalk.bgBlack(`Server started on ${PORT}`));
-
 
       if (process.env.NODE_ENV === "development") {
         console.log(chalk.white.bgBlack.bold("App is running in Development mode"));

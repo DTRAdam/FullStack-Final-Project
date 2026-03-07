@@ -123,4 +123,49 @@ router.get("/", auth, async (req, res) => {
     }
 });
 
+// delete user (Admin only)
+router.delete("/:id", auth, async (req, res) => {
+    try {
+        if (!req.payload.isAdmin) {
+            return res.status(403).send("Access denied. Admin only.");
+        }
+        const user = await User.findByIdAndDelete(req.params.id);
+        if (!user) return res.status(404).send("User not found.");
+
+        // Also delete their cart
+        await Cart.findOneAndDelete({ userId: req.params.id });
+
+        res.status(200).send(user);
+    } catch (error) {
+        res.status(500).send(error.message);
+    }
+});
+
+// update user (Admin only)
+router.patch("/:id", auth, async (req, res) => {
+    try {
+        if (!req.payload.isAdmin) {
+            return res.status(403).send("Access denied. Admin only.");
+        }
+
+        // Remove password from updates if present
+        const updates = { ...req.body };
+        if (updates.password) {
+            const salt = await bcrypt.genSalt(10);
+            updates.password = await bcrypt.hash(updates.password, salt);
+        }
+
+        const user = await User.findByIdAndUpdate(
+            req.params.id,
+            { $set: updates },
+            { new: true }
+        ).select("-password");
+
+        if (!user) return res.status(404).send("User not found.");
+        res.status(200).send(user);
+    } catch (error) {
+        res.status(500).send(error.message);
+    }
+});
+
 module.exports = router;

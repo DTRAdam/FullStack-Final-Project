@@ -7,18 +7,20 @@ const Product = require("../models/Product");
 
 const productSchema = Joi.object({
     title: Joi.string().min(2).required(),
-    description: Joi.string().min(10).required(),
+    description: Joi.string().min(5).required(),
     price: Joi.number().min(0).required(),
-    category: Joi.string().required(),
+    quantity: Joi.number().required(),
+    category: Joi.string(),
     inStock: Joi.boolean().default(true),
     image: Joi.object({
-        url: Joi.string().uri().required(),
-        alt: Joi.string().min(2).required(),
+        url: Joi.string().required(),
+        alt: Joi.string().min(2),
     }).required(),
 });
 
 // Add a new product Admin only (:
 router.post("/", auth, async (req, res) => {
+    console.log("REQ BODY:", req.body);
     try {
         if (!req.payload.isAdmin) {
             return res.status(403).send("Access denied. Only admins can add products.");

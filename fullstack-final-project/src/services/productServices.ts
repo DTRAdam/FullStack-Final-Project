@@ -13,7 +13,7 @@ export function getProductById(id: string) {
 }
 
 export function addProduct(product: Product) {
-    return axios.post(api, {
+    return axios.post(api, product, {
         headers: {
             "x-auth-token": localStorage.getItem("token")
         }

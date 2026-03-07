@@ -42,9 +42,10 @@ const EditProduct: FunctionComponent<EditProductProps> = ({ onHide, refresh, pro
             description: yup.string().required().min(2).max(1024),
             price: yup.number().required().min(1),
             image: yup.object({
-                url: yup.string().min(14).url().required(),
-                alt: yup.string().min(2).max(256).required(),
+                url: yup.string().min(14),
+                alt: yup.string().min(5).required(),
             }),
+
             category: yup.string(),
 
 
@@ -106,13 +107,10 @@ const EditProduct: FunctionComponent<EditProductProps> = ({ onHide, refresh, pro
                             onBlur={formik.handleBlur}
                         />
                         <label htmlFor="category">Category: </label>
-                        {formik.touched.category && formik.errors.category && (
-                            <p className="text-danger">{formik.errors.category}</p>
-                        )}
                     </div>
                     <div className="form-floating mb-3">
                         <input
-                            type="text"
+                            type="number"
                             className="form-control"
                             id="price"
                             name="price"
@@ -136,9 +134,6 @@ const EditProduct: FunctionComponent<EditProductProps> = ({ onHide, refresh, pro
                             onBlur={formik.handleBlur}
                         />
                         <label htmlFor="image.url">Url: </label>
-                        {formik.touched.image?.url && formik.errors.image?.url && (
-                            <p className="text-danger">{formik.errors.image?.url}</p>
-                        )}
                     </div>
                     <div className="form-floating mb-3">
                         <input
@@ -151,9 +146,6 @@ const EditProduct: FunctionComponent<EditProductProps> = ({ onHide, refresh, pro
                             onBlur={formik.handleBlur}
                         />
                         <label htmlFor="image.alt">Alt: </label>
-                        {formik.touched.image?.alt && formik.errors.image?.alt && (
-                            <p className="text-danger">{formik.errors.image?.alt}</p>
-                        )}
                     </div>
                     <button
                         className="btn btn-primary fs-5 mt-3 w-100"

@@ -84,9 +84,18 @@ body {
 
 .productbtns {
   display: flex;
-  width: 100vw;
-  justify-content: space-between;
+  width: 100%;
+  justify-content: space-around;
+  padding: 0 10px;
+  gap: 10px;
   transition: all 0.9s ease-in-out;
+}
+
+.adminbtn,
+.loggedibtns {
+  display: flex;
+  gap: 5px;
+  justify-content: center;
 }
 
 .pagination {
@@ -150,7 +159,7 @@ body {
   width: 70px;
   height: 70px;
   position: absolute;
-  background: #fff;
+  background: #ffffff6c;
   border-radius: 50%;
   top: 50%;
   left: 50%;
@@ -165,7 +174,7 @@ body {
 .blob-2 {
   left: 80%;
   animation: osc-r 2.5s ease infinite;
-  background: #0ff;
+  background: rgb(255, 0, 0);
 }
 
 @keyframes osc-l {
@@ -452,6 +461,42 @@ model-viewer {
   box-shadow: 0 0 20px #f9f6ee61;
 }
 
+.roundedshadow {
+  backdrop-filter: blur(5px);
+  transition: all 0.6s ease-in-out;
+}
+
+.spcontainer {
+  backdrop-filter: blur(6px);
+}
+
+.roundedshadow:hover {
+
+  box-shadow: 0 0 20px #fffffff1;
+}
+
+.add-card-special .card {
+  cursor: pointer;
+  transition: all 0.3s ease;
+  min-height: 40vh b;
+
+}
+
+.add-card-special .card:hover {
+  background-color: rgba(0, 0, 0, 0.05) !important;
+  border-color: #000 !important;
+  transform: translateY(-5px);
+}
+
+.add-card-special .card-body i {
+  color: #6c757d;
+  transition: color 0.3s ease;
+}
+
+.add-card-special .card:hover i {
+  color: #000;
+}
+
 .profile-info p {
   padding: 15px;
   line-height: 1.70;
@@ -590,8 +635,28 @@ button .link {
   width: 100vw;
 }
 
-.profileTable {
+.profile-id-card {
+  max-width: 450px;
   width: 100%;
+  border-radius: 20px;
+  background: linear-gradient(145deg, rgba(30, 30, 30, 0.8), rgba(15, 15, 15, 0.9));
+  box-shadow: 0 8px 32px rgba(255, 99, 99, 0.15);
+  border: 1px solid rgba(255, 99, 99, 0.2);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.profile-id-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 40px rgba(255, 99, 99, 0.3);
+}
+
+.profile-avatar {
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 50%;
+  margin-top: -60px;
+  background-color: #1a1a1a;
 }
 
 .loginform {
@@ -765,4 +830,327 @@ button>.link {
   animation: slideGradient 5.5s linear infinite;
   backdrop-filter: blur(8px);
   color: white;
+}
+
+.crmmaindiv {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.crm-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 30px;
+  width: 90vw;
+  max-width: 1400px;
+  padding: 20px 0;
+}
+
+.crm-card {
+  background: linear-gradient(145deg, rgba(30, 30, 30, 0.6), rgba(15, 15, 15, 0.8));
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(10px);
+  border-radius: 20px;
+  padding: 25px;
+  display: flex;
+  flex-direction: column;
+  transition: all 0.4s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.crm-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 15px 40px rgba(255, 99, 99, 0.2);
+  border-color: rgba(255, 99, 99, 0.4);
+}
+
+.crm-card-header {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 20px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.crm-avatar {
+  background: linear-gradient(135deg, #ff6363, #cc0000);
+  width: 55px;
+  height: 55px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  color: white;
+  font-weight: bold;
+  box-shadow: 0 4px 15px rgba(255, 99, 99, 0.4);
+}
+
+.crm-card h3 {
+  margin: 0;
+  font-size: 1.4rem;
+  color: #fff;
+  text-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+}
+
+.crm-badge {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: rgba(40, 167, 69, 0.15);
+  color: #28a745;
+  border: 1px solid rgba(40, 167, 69, 0.3);
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: bold;
+}
+
+.crm-badge.admin {
+  background: rgba(255, 99, 99, 0.15);
+  color: #ff6363;
+  border-color: rgba(255, 99, 99, 0.3);
+}
+
+.crm-info {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 25px;
+}
+
+.crm-info-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: #dcdcdc;
+  font-size: 1.05rem;
+}
+
+.crm-info-item i {
+  color: #ff6363;
+  width: 20px;
+  text-align: center;
+}
+
+.crm-actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: auto;
+  gap: 15px;
+}
+
+.crm-action-btn {
+  flex: 1;
+  padding: 10px;
+  border-radius: 12px;
+  border: none;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 0.95rem;
+}
+
+.crm-btn-edit {
+  background: rgba(255, 193, 7, 0.15);
+  color: #ffc107;
+  border: 1px solid rgba(255, 193, 7, 0.3);
+}
+
+.crm-btn-edit:hover {
+  background: #ffc107;
+  color: #000;
+  box-shadow: 0 5px 15px rgba(255, 193, 7, 0.4);
+}
+
+.crm-btn-delete {
+  background: rgba(220, 53, 69, 0.15);
+  color: #dc3545;
+  border: 1px solid rgba(220, 53, 69, 0.3);
+}
+
+.crm-btn-delete:hover {
+  background: #dc3545;
+  color: #fff;
+  box-shadow: 0 5px 15px rgba(220, 53, 69, 0.4);
+}
+
+.register-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 85vh;
+  padding: 2rem;
+}
+
+.register-container {
+  display: flex;
+  width: 100%;
+  max-width: 1100px;
+  background: rgba(20, 20, 25, 0.7);
+  backdrop-filter: blur(16px);
+  border-radius: 20px;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5), 0 0 20px rgba(255, 99, 99, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  overflow: hidden;
+}
+
+.register-image-side {
+  flex: 1;
+  background: linear-gradient(135deg, rgba(20, 20, 25, 0.9), rgba(255, 99, 99, 0.7)), url('/public/Gym.webp');
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem;
+  color: white;
+  text-align: center;
+  position: relative;
+}
+
+.register-overlay {
+  z-index: 2;
+}
+
+.register-overlay h1 {
+  font-size: 3.5rem;
+  font-weight: 800;
+  margin-bottom: 1rem;
+  text-shadow: 0 4px 15px rgba(0, 0, 0, 0.6);
+  background: linear-gradient(90deg, #fff, #ffaeae);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.register-overlay p {
+  font-size: 1.25rem;
+  opacity: 0.9;
+  line-height: 1.6;
+  text-shadow: 0 2px 5px rgba(0, 0, 0, 0.8);
+}
+
+.register-form-side {
+  flex: 1.3;
+  padding: 3rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background: rgba(30, 30, 35, 0.85);
+}
+
+.register-title {
+  font-size: 2.2rem;
+  color: #fff;
+  margin-bottom: 2rem;
+  font-weight: 600;
+  text-align: center;
+}
+
+.form-row {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.form-group {
+  flex: 1;
+  position: relative;
+}
+
+.register-form-side .form-floating label {
+  color: #aaa;
+}
+
+.register-form-side .form-control {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: white;
+  border-radius: 10px;
+  transition: all 0.3s ease;
+}
+
+.register-form-side .form-control:focus {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: #ff6363;
+  box-shadow: 0 0 12px rgba(255, 99, 99, 0.35);
+}
+
+.btn-register-submit {
+  width: 100%;
+  padding: 1rem;
+  background: linear-gradient(135deg, #ff6363, #d93838);
+  border: none;
+  border-radius: 10px;
+  color: white;
+  font-size: 1.2rem;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 1.5rem;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(255, 99, 99, 0.4);
+}
+
+.btn-register-submit:hover:not(:disabled) {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(255, 99, 99, 0.6);
+}
+
+.btn-register-submit:disabled {
+  background: #555;
+  cursor: not-allowed;
+  box-shadow: none;
+  opacity: 0.7;
+}
+
+.register-login-link {
+  text-align: center;
+  margin-top: 1.5rem;
+  color: #aaa;
+  font-size: 1.1rem;
+}
+
+.register-login-link span {
+  color: #ff6363;
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.3s ease;
+}
+
+.register-login-link span:hover {
+  color: #ff8888;
+  text-shadow: 0 0 8px rgba(255, 99, 99, 0.6);
+}
+
+.small {
+  font-size: 0.85em;
+}
+
+@media (max-width: 900px) {
+  .register-container {
+    flex-direction: column;
+  }
+
+  .register-image-side {
+    padding: 2rem;
+  }
+
+  .register-form-side {
+    padding: 2rem;
+  }
+
+  .form-row {
+    flex-direction: column;
+    gap: 0;
+  }
 }

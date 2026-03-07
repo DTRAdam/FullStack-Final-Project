@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Product } from "../interfaces/products";
-import { getProductsFromCart, deleteFromCart } from "../services/cartServcies"; // Corrected spelling to services if needed
+import { getProductsFromCart, deleteFromCart } from "../services/cartServcies";
 import Swal from "sweetalert2";
 import useUsers from "./useUsers";
 
@@ -18,7 +18,10 @@ export const useCart = () => {
 
         setLoading(true);
         getProductsFromCart(userId)
-            .then((res: Product[]) => setCartItems(res || []))
+            .then((res: Product[]) => {
+
+                setCartItems(res || [])
+            })
             .catch((error) => {
                 console.error(error);
                 setCartItems([]);

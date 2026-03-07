@@ -10,7 +10,7 @@ interface NavBarProps {
 
 const NavBar: FunctionComponent<NavBarProps> = () => {
     const navigate: NavigateFunction = useNavigate()
-    const { isLoggedIn, setIsLoggedIn, allUsers, userId, isAdmin } = useUsers()
+    const { isLoggedIn, setIsLoggedIn, allUsers, userId, isAdmin, setIsAdmin } = useUsers()
 
 
 
@@ -55,9 +55,10 @@ const NavBar: FunctionComponent<NavBarProps> = () => {
                                     <NavLink to={"/"} className=" text-light nav-link"><div style={{ backgroundImage: `url(${imageUrl})` }}></div></NavLink>
                                 </li>}
                                 {isLoggedIn && <button className="btn btn-warning display-5 mx-1" onClick={() => {
-                                    navigate("/");
                                     setIsLoggedIn(false);
+                                    setIsAdmin(false);
                                     localStorage.removeItem("token");
+                                    navigate("/");
                                 }}>Logout</button>}
                                 {!isLoggedIn && <button className="btn text-light btn-outline-success mx-1" type="submit" onClick={() => {
                                     navigate("/register")

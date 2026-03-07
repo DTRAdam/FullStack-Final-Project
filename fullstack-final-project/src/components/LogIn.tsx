@@ -28,7 +28,7 @@ const LogIn: FunctionComponent<LogInProps> = () => {
         }),
         onSubmit: (values) => {
             checkUser(values.email, values.password).then((res) => {
-                if (res.data.length) {
+                if (res.data && typeof res.data === "string") {
                     const token = res.data;
                     localStorage.setItem("token", token);
 

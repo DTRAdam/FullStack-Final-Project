@@ -20,6 +20,7 @@ import { Product } from './interfaces/products';
 import Swal from 'sweetalert2';
 import Profile from './components/Profile';
 import { authAdminContext, AuthProvider } from './context/isLoggedInContext';
+import Sproduct from './components/Sproduct';
 
 function App() {
 
@@ -30,7 +31,22 @@ function App() {
     });
   }, []);
 
-  const [favorites, setFavorites] = useState<Product[]>([]);
+  const [favorites, setFavorites] = useState<Product[]>(() => {
+    const saved = localStorage.getItem("favorites");
+    if (saved) {
+      try {
+        return JSON.parse(saved);
+      } catch (e) {
+        return [];
+      }
+    }
+    return [];
+  });
+
+  useEffect(() => {
+    localStorage.setItem("favorites", JSON.stringify(favorites));
+  }, [favorites]);
+
   const handleFavoriteToggle = (product: Product) => {
 
     const isFavorite = favorites.some(fav => fav._id === product._id);
@@ -70,6 +86,7 @@ function App() {
               <Route path="/titles" element={<Titles />} />
               <Route path="/products" element={<Products handleFavoriteToggle={handleFavoriteToggle} />} />
               <Route path="/register" element={<Register />} />
+              <Route path="/sproduct/:id" element={<Sproduct />} />
               <Route path="/login" element={<LogIn />} />
               <Route path="/crm" element={<Crm />} />
               <Route path="/cartc" element={<CartC />} />
