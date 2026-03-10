@@ -29,14 +29,16 @@ const useProducts = () => {
     useEffect(() => {
         getAllProducts()
             .then((res) => {
-                if (!res.data.inStock) {
-                    setInStock(false)
+                if (Array.isArray(res.data)) {
+                    setProducts(res.data)
+                } else {
+                    console.error("API did not return an array of products:", res.data);
+                    setProducts([]);
                 }
-                setProducts(res.data)
                 setIsLoading(false)
             })
             .catch((err) => {
-
+                console.error("Failed to fetch products:", err);
                 setIsLoading(false)
             })
     }, [])
